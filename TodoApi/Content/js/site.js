@@ -33,7 +33,19 @@ function addItem() {
 }
 
 function deleteItem(id) {
-    // ToDO
+    const item = todos.find(item => item.Id === id);
+
+    fetch(uri + '/' + id, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(() => {
+            getItems();
+        })
+  
 }
 
 function displayEditForm(id) {
@@ -75,18 +87,20 @@ function closeInput() {
 
 function _displayCount(itemCount) {
     const name = (itemCount === 1) ? 'to-do' : 'to-dos';
+    const countName = document.getElementById('countName');
+    const count = document.getElementById('count');
 
-    // DoTo
+    countName.innerHTML = name;
+    count.innerHTML = itemCount;
 }
 
 function _displayItems(data) {
     const tBody = document.getElementById('todos');
     tBody.innerHTML = '';
 
-    //_displayCount(data.length);
+    _displayCount(data.length);
 
     const button = document.createElement('button');
-
     data.forEach(item => {
         let isCompleteCheckbox = document.createElement('input');
         isCompleteCheckbox.type = 'checkbox';
